@@ -13,9 +13,10 @@ namespace SimpleAsync
             await Task.Run(() =>
                 {
                     Console.WriteLine("Starting to Log ... ");
+                    Task.Delay(1000);
                     Console.WriteLine($"Write Message: {message}");
-
-                    });
+                    Task.Delay(1000);
+                });
 
             return "Finished writing to Log.";
         }

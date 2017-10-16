@@ -5,6 +5,18 @@
         prism:ViewModelLocator.AutoWireViewModel="True"
         Title="{Binding Title}" Height="350" Width="525">
     <Grid>
-        <ContentControl prism:RegionManager.RegionName="ContentRegion" />
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="75"/>
+        </Grid.RowDefinitions>
+
+        <ListBox Grid.Row="0" Margin="10" ItemsSource="{Binding FunFactCollection}" />
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="10,0,10,10">
+            <Button Command="{Binding GetFunFactsCommand}" Content="Get Fun Facts" Width="150" Margin="5" />
+            <Button Command="{Binding GetFunFactsAsyncCommand}" Content="Get Fun Facts Async" Width="150" Margin="5" />
+            <Button Command="{Binding ClearFactsCommand}" Content="Clear all Fun" Width="150" Margin="5" />
+        </StackPanel>
+
     </Grid>
 </Window>

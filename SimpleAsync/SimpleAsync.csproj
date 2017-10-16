@@ -50,5 +50,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SimpleAsync.Service\SimpleAsync.Service.csproj">
+      <Project>{d13522a3-6c4f-4f99-80c4-858d7a12913e}</Project>
+      <Name>SimpleAsync.Service</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
