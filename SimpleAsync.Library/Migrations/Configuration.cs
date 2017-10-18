@@ -29,9 +29,10 @@ namespace SimpleAsync.Library.Migrations
 
             context.FunFacts.AddOrUpdate(
                 f => f.Id,
-                new FunFact { Fact = "Save lots of equipment from the landfill." },
-                new FunFact { Fact="Ship medical equipment and supplies worldwide."},
-                new FunFact {  Fact="Based in Nampa, Idaho"}
+                new FunFact { Fact = "Saved more than 977 tons of medical equipment from landfills." },
+                new FunFact { Fact="Over the last 20 years, we have shipped to 70+ countries."},
+                new FunFact { Fact="$2-3 million. Average value per year of distributed equipment and supplies."},
+                new FunFact { Fact="Based in Nampa, Idaho"}
             
             );
 

@@ -3,16 +3,28 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:prism="http://prismlibrary.com/"
         prism:ViewModelLocator.AutoWireViewModel="True"
-        Title="{Binding Title}" Height="350" Width="525">
+        Title="{Binding Title}" Height="300" Width="650">
+    <Window.Resources>
+        <Style  TargetType="{x:Type ListBoxItem}">
+            <Style.Triggers>
+                <Trigger Property="ItemsControl.AlternationIndex" Value="0">
+                    <Setter Property="Background" Value="#E79AAF"></Setter>
+                </Trigger>
+                <Trigger Property="ItemsControl.AlternationIndex" Value="1">
+                    <Setter Property="Background" Value="#8DCF8A"></Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition />
             <RowDefinition Height="75"/>
         </Grid.RowDefinitions>
 
-        <ListBox Grid.Row="0" Margin="10" ItemsSource="{Binding FunFactCollection}" />
+        <ListBox Grid.Row="0" Margin="10" ItemsSource="{Binding FunFactCollection}" AlternationCount="2" FontSize="18"  />
 
-        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="10,0,10,10">
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="10,0,10,10" HorizontalAlignment="Center">
             <Button Command="{Binding GetFunFactsCommand}" Content="Get Fun Facts" Width="150" Margin="5" />
             <Button Command="{Binding GetFunFactsAsyncCommand}" Content="Get Fun Facts Async" Width="150" Margin="5" />
             <Button Command="{Binding ClearFactsCommand}" Content="Clear all Fun" Width="150" Margin="5" />

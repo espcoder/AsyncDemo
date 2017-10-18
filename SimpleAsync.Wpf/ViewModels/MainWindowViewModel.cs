@@ -9,6 +9,9 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using System.Net;
+using System.Threading;
+using System.IO;
 
 namespace SimpleAsync.Wpf.ViewModels
 {
@@ -38,9 +41,6 @@ namespace SimpleAsync.Wpf.ViewModels
         {
             FunFactCollection = new ObservableCollection<FunFact>();
 
-            FunFactCollection.Add(new FunFact { Fact = "Test Fact", Impacts =new List<string>() { "Fun" } });
-
-
             GetFunFactsCommand = new DelegateCommand(GetFunFacts);
             GetFunFactsAsyncCommand = new DelegateCommand(GetFunFactsAsync);
             ClearFactsCommand = new DelegateCommand(ClearFacts);
@@ -52,24 +52,34 @@ namespace SimpleAsync.Wpf.ViewModels
             FunFactCollection.Clear();
         }
 
-        private void GetFunFactsAsync()
+        private async void GetFunFactsAsync()
         {
             using (var client = new HttpClient())
             {
                 InitializeClient(client);
 
-                Task<HttpResponseMessage> getTask = client.GetAsync("http://localhost:51055/api/FunFacts");
+                HttpResponseMessage getTask = await client.GetAsync("http://localhost:51055/api/FunFacts");
 
-                Task<List<FunFact>> contentTask = getTask.Result.Content.ReadAsAsync<List<FunFact>>();
+                List<FunFact> contentTask = await getTask.Content.ReadAsAsync<List<FunFact>>();
 
-                FunFactCollection = new ObservableCollection<FunFact>(contentTask.Result);
+                FunFactCollection = new ObservableCollection<FunFact>(contentTask);
 
             }
         }
 
         private void GetFunFacts()
         {
-            MessageBox.Show("Working");
+            WebRequest request = WebRequest.Create("http://localhost:51055/api/FunFacts");
+            WebResponse responseTask = request.GetResponse();
+            WebResponse response = responseTask;
+
+            using (var reader = new StreamReader(response.GetResponseStream()))
+            {
+                string content = reader.ReadToEnd();
+                List<FunFact> facts = JsonConvert.DeserializeObject<List<FunFact>>(content);
+                FunFactCollection = new ObservableCollection<FunFact>(facts);
+            }
+
         }
 
 
