@@ -5,6 +5,10 @@ using System.Collections.ObjectModel;
 using System;
 using System.Windows;
 using System.Collections.Generic;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace SimpleAsync.Wpf.ViewModels
 {
@@ -36,6 +40,7 @@ namespace SimpleAsync.Wpf.ViewModels
 
             FunFactCollection.Add(new FunFact { Fact = "Test Fact", Impacts =new List<string>() { "Fun" } });
 
+
             GetFunFactsCommand = new DelegateCommand(GetFunFacts);
             GetFunFactsAsyncCommand = new DelegateCommand(GetFunFactsAsync);
             ClearFactsCommand = new DelegateCommand(ClearFacts);
@@ -49,12 +54,32 @@ namespace SimpleAsync.Wpf.ViewModels
 
         private void GetFunFactsAsync()
         {
-            MessageBox.Show("Working");
+            using (var client = new HttpClient())
+            {
+                InitializeClient(client);
+
+                Task<HttpResponseMessage> getTask = client.GetAsync("http://localhost:51055/api/FunFacts");
+
+                Task<List<FunFact>> contentTask = getTask.Result.Content.ReadAsAsync<List<FunFact>>();
+
+                FunFactCollection = new ObservableCollection<FunFact>(contentTask.Result);
+
+            }
         }
 
         private void GetFunFacts()
         {
             MessageBox.Show("Working");
         }
+
+
+
+        private static void InitializeClient(HttpClient client)
+        {
+            client.BaseAddress = new Uri("http://localhost:51055/api/");
+            client.DefaultRequestHeaders.Accept.Add(
+                new MediaTypeWithQualityHeaderValue("application/json"));
+        }
+
     }
 }

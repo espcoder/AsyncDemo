@@ -49,12 +49,21 @@
   <ItemGroup>
     <Compile Include="DbContext.cs" />
     <Compile Include="FunFact.cs" />
+    <Compile Include="Migrations\201710180419218_Initial Migration.cs" />
+    <Compile Include="Migrations\201710180419218_Initial Migration.Designer.cs">
+      <DependentUpon>201710180419218_Initial Migration.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201710180419218_Initial Migration.resx">
+      <DependentUpon>201710180419218_Initial Migration.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
